@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { ExampleComponent } from 'rocket-useform'
-import 'rocket-useform/dist/index.css'
+import { useForm } from 'rocket-useform'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  console.log(useForm)
+  return <div>Hello world</div>
 }
 
 export default App
