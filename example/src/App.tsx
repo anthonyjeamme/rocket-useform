@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { useForm, numberField, textField } from 'rocket-useform'
+import { useForm, numberField, textField, Schema } from 'rocket-useform'
 
 const data = {}
 
-const schema = {
+const schema = Schema({
   user: {
     firstName: textField({
       required: true
@@ -16,12 +16,12 @@ const schema = {
       required: true
     })
   }
-}
+})
 
 const BasicExample = () => {
   const refreshCounter = useRef<number>(0)
   const form = useForm(data, schema)
-  const textareaRef = useRef<HTMLTextAreaElement>()
+  const textareaRef = useRef<any>()
 
   useEffect(() => {
     const handleChange = (event: any) => {

@@ -1,5 +1,6 @@
 export * from './useForm'
 import Validator from './validators/Validator'
+export { Validator }
 export * from './useFormSchema'
 
-export { Validator }
+export * from './useForm.types'
