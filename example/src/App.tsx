@@ -26,7 +26,11 @@ const schema = {
         maxLength: 4
       }
     }
-  )
+  ),
+  closed_periods: arrayField({
+    start_date: textField(),
+    end_date: textField()
+  })
 }
 
 const BasicExample = () => {
@@ -68,13 +72,13 @@ const BasicExample = () => {
             padding: 40
           }}
         >
-          {form.getArray('list').map(() => (
+          {form.getArray('closed_periods').map(() => (
             <div>item</div>
           ))}
 
           <button
             onClick={() => {
-              form.getArray('list').set([{}, {}, {}, {}, {}, {}])
+              form.getArray('closed_periods').insert({})
             }}
           >
             text

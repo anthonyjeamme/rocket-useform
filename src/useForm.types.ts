@@ -217,7 +217,7 @@ export type TFormSchemaArrayParams = {
   required?: boolean
   defaultValue?: any // TODO
   validation?: any // TODO
-  constraints: TFormSchemaArrayParamsContraints
+  constraints?: TFormSchemaArrayParamsContraints
 }
 
 export type TFormSchemaArrayParamsContraints = {

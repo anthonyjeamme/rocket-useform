@@ -30,16 +30,14 @@ export function useForm<T = any>(
   const generateId = useIdGenerator()
 
   const formTools: TFormTools = {
-    handleModified: ({ path, oldValue, newValue }) => {
+    handleModified: (event = {}) => {
       setModified(true)
 
       for (const listener of eventListenersRef.current.change) {
         listener({
-          path,
-          pathString: pathToStringPath(path),
-          type: 'change',
-          oldValue,
-          newValue
+          ...event,
+          pathString: event.path ? pathToStringPath(event.path) : null,
+          type: 'change'
         })
       }
     },
