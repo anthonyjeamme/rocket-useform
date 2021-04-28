@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { useForm, numberField, textField, Schema } from 'rocket-useform'
+import { useForm, numberField, textField, arrayField } from 'rocket-useform'
 
-const data = {}
+const data = {
+  list: [{}]
+}
 
-const schema = Schema({
+const schema = {
   user: {
     firstName: textField({
       required: true
@@ -15,8 +17,17 @@ const schema = Schema({
     age: numberField({
       required: true
     })
-  }
-})
+  },
+  list: arrayField(
+    {},
+    {
+      constraints: {
+        minLength: 2,
+        maxLength: 4
+      }
+    }
+  )
+}
 
 const BasicExample = () => {
   const refreshCounter = useRef<number>(0)
@@ -52,6 +63,24 @@ const BasicExample = () => {
       }}
     >
       <div style={{ flex: 1 }}>
+        <div
+          style={{
+            padding: 40
+          }}
+        >
+          {form.getArray('list').map(() => (
+            <div>item</div>
+          ))}
+
+          <button
+            onClick={() => {
+              form.getArray('list').set([{}, {}, {}, {}, {}, {}])
+            }}
+          >
+            text
+          </button>
+        </div>
+
         <div>Refresh counter : {refreshCounter.current++}</div>
 
         <div>

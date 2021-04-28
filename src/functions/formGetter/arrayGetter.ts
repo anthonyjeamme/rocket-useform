@@ -6,6 +6,7 @@ import {
 import {
   getObjectPathChild,
   mergePaths,
+  pathToArrayPath,
   pathToStringPath,
   replaceAtPath
 } from '../../utils/formPath'
@@ -29,7 +30,9 @@ const arrayGetter = ({
 
   const set = (data, refresh = false) => {
     replaceAtPath(formDataRef, path, data, formParams, formTools)
-    formTools.handleModified(null)
+    formTools.handleModified({
+      path: pathToArrayPath(path)
+    })
     if (refresh) formTools.refresh()
   }
 
@@ -63,10 +66,17 @@ const arrayGetter = ({
         formParams
       ) as TFormDataArrayNode
       const childType = (child.__schema as TArrayFormSchemaNode).__childType
+      const params = (child.__schema as TArrayFormSchemaNode).__params
 
       const _index = index === null ? child.__children.length : index
 
-      child.__children = [
+      if (params?.constraints?.maxLength) {
+        if (child.__children.length + 1 > params?.constraints?.maxLength) {
+          return
+        }
+      }
+
+      const children = [
         ...child.__children.slice(0, _index),
         generateFormData(
           data,
@@ -76,6 +86,8 @@ const arrayGetter = ({
         ),
         ...child.__children.slice(_index)
       ]
+
+      child.__children = children
 
       formTools.refresh()
     },

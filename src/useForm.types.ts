@@ -48,11 +48,11 @@ export type TFormEventListenerRef = {
 export type TFormEventType = 'change'
 export type TFormEventCallback = (event: TFormEvent) => void
 export type TFormEvent = {
-  type: TFormEventType
-  path: TFormNodeArrayPath
-  pathString: TFormNodeStringPath
-  oldValue: any
-  newValue: any
+  type?: TFormEventType
+  path?: TFormNodeArrayPath
+  pathString?: TFormNodeStringPath
+  oldValue?: any
+  newValue?: any
 }
 
 export type TFormSchema = any
@@ -116,9 +116,9 @@ export type TFormTools = {
     oldValue,
     newValue
   }: {
-    path: TFormNodeArrayPath
-    oldValue: any
-    newValue: any
+    path?: TFormNodeArrayPath
+    oldValue?: any
+    newValue?: any
   }) => void
   refresh: () => void
   generateId: () => string
@@ -201,6 +201,7 @@ export class TObjectFormSchemaNode extends TFormSchemaNode {
 export class TArrayFormSchemaNode extends TFormSchemaNode {
   __node: 'array'
   __childType: TFormSchemaNode
+  __params: TFormSchemaArrayParams
 }
 
 export type TFormSchemaValueParams<TGetter, TDataType> = {
@@ -216,6 +217,12 @@ export type TFormSchemaArrayParams = {
   required?: boolean
   defaultValue?: any // TODO
   validation?: any // TODO
+  constraints: TFormSchemaArrayParamsContraints
+}
+
+export type TFormSchemaArrayParamsContraints = {
+  minLength?: number
+  maxLength?: number
 }
 
 export type TFormSchemaObjectParams = {
