@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { useForm, textField, numberField, arrayField } from 'rocket-useform'
+import { useForm } from 'rocket-useform'
 
 const data = {
   enabled: false,
@@ -43,36 +43,35 @@ const data = {
 }
 
 const schema = {
-  type: textField(),
-  title: textField(),
-  category: textField(),
-  tva: numberField(),
-  description: textField({ required: true }),
-  note: textField({ required: false, defaultValue: '' }),
-  schedules: {
-    type: textField()
-  },
-  informations: {
-    gender: textField({ required: true, defaultValue: 'unisex' }),
-    moods: arrayField(textField()),
-    who: arrayField(textField(), {
-      defaultValue: ['everyone']
-    }),
-    labels: arrayField(textField())
-  },
-
-  time_limit: numberField({
-    // validation: (value, get) => {
-    // 	return true
-    // 	if (get('parent._type').value !== 'service') return true
-    // 	return !!value
-    // }
-  }),
-  reservation_policy: {
-    confirmation_method: textField({ required: true }),
-    cancellation: textField({ required: true })
-  },
-  activities: arrayField(textField(), {})
+  // type: textField(),
+  // title: textField(),
+  // category: textField(),
+  // tva: numberField(),
+  // description: textField({ required: true }),
+  // note: textField({ required: false, defaultValue: '' }),
+  // schedules: {
+  //   type: textField()
+  // },
+  // informations: {
+  //   gender: textField({ required: true, defaultValue: 'unisex' }),
+  //   moods: arrayField(textField()),
+  //   who: arrayField(textField(), {
+  //     defaultValue: ['everyone']
+  //   }),
+  //   labels: arrayField(textField())
+  // },
+  // time_limit: numberField({
+  //   // validation: (value, get) => {
+  //   // 	return true
+  //   // 	if (get('parent._type').value !== 'service') return true
+  //   // 	return !!value
+  //   // }
+  // }),
+  // reservation_policy: {
+  //   confirmation_method: textField({ required: true }),
+  //   cancellation: textField({ required: true })
+  // },
+  // activities: arrayField(textField(), {})
 }
 
 const BasicExample = () => {
