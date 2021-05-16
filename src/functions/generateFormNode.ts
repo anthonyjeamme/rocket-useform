@@ -164,7 +164,7 @@ function checkSchemaMatchData(
   path: TFormNodePath
 ) {
   const dataType =
-    data === undefined
+    data === undefined || data === null
       ? null
       : Array.isArray(data)
       ? 'array'

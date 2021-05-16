@@ -141,3 +141,45 @@ But don't worry ! You can force refresh this way :
 ```
 
 update function take a boolean as second argument : forceRefresh
+
+## Schema
+
+### Field
+
+- Text field
+
+```tsx
+const schema = {
+  name: textField()
+}
+```
+
+- Number field
+
+```tsx
+const schema = {
+  name: numberField()
+}
+```
+
+- Boolean field
+
+```tsx
+const schema = {
+  name: booleanField()
+}
+```
+
+### Object
+
+### Array
+
+```tsx
+const schema = {
+  users: arrayField({
+    name: textField()
+  })
+}
+```
+
+### Params

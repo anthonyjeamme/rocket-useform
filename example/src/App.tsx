@@ -1,36 +1,78 @@
 import React, { useEffect, useRef } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { useForm, numberField, textField, arrayField } from 'rocket-useform'
+import { useForm, textField, numberField, arrayField } from 'rocket-useform'
 
 const data = {
-  list: [{}]
+  enabled: false,
+  creation: { complete: false, currentStep: 0 },
+  miniature: null,
+  gallery: [],
+  title: '',
+  description: '',
+  note: '',
+  informations: { gender: 'unisex', moods: [], labels: [], who: [] },
+  about: null,
+  tags: null,
+  pricing: null,
+  options: [],
+  reservation_policy: null,
+  activities: [],
+  category: null,
+  type: 'product',
+  delivery: {
+    ownDelivery: {
+      enabled: false,
+      freeAfterOrderPrice: null,
+      note: '',
+      preparationDelay: null,
+      price: null,
+      pricing: null
+    },
+    shippingOptions: [],
+    takeAway: { enabled: false, preparationDelay: null, note: '' }
+  },
+  giftPackage: { available: false, price: null },
+  characteristics: {
+    height: null,
+    length: null,
+    volume: null,
+    weight: null,
+    width: null
+  },
+  id: '60a15faf64f3b30782b3b3a8'
 }
 
 const schema = {
-  user: {
-    firstName: textField({
-      required: true
-    }),
-    lastName: textField({
-      required: true
-    }),
-    age: numberField({
-      required: true
-    })
+  type: textField(),
+  title: textField(),
+  category: textField(),
+  tva: numberField(),
+  description: textField({ required: true }),
+  note: textField({ required: false, defaultValue: '' }),
+  schedules: {
+    type: textField()
   },
-  list: arrayField(
-    {},
-    {
-      constraints: {
-        minLength: 2,
-        maxLength: 4
-      }
-    }
-  ),
-  closed_periods: arrayField({
-    start_date: textField(),
-    end_date: textField()
-  })
+  informations: {
+    gender: textField({ required: true, defaultValue: 'unisex' }),
+    moods: arrayField(textField()),
+    who: arrayField(textField(), {
+      defaultValue: ['everyone']
+    }),
+    labels: arrayField(textField())
+  },
+
+  time_limit: numberField({
+    // validation: (value, get) => {
+    // 	return true
+    // 	if (get('parent._type').value !== 'service') return true
+    // 	return !!value
+    // }
+  }),
+  reservation_policy: {
+    confirmation_method: textField({ required: true }),
+    cancellation: textField({ required: true })
+  },
+  activities: arrayField(textField(), {})
 }
 
 const BasicExample = () => {
@@ -58,6 +100,8 @@ const BasicExample = () => {
       console.log(`There is error(s) in form`)
     }
   }
+
+  return null
 
   return (
     <div
