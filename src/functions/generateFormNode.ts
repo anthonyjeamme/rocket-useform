@@ -174,8 +174,9 @@ function checkSchemaMatchData(
 
   const schemaType = getSchemaNodeType(schema)
 
+  console.log(JSON.stringify(data))
+
   console.log({
-    data,
     dataType,
     schemaType
   })
