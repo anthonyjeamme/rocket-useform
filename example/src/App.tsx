@@ -3,43 +3,43 @@ import React, { useEffect, useRef } from 'react'
 import { useForm } from 'rocket-useform'
 
 const data = {
-  enabled: false,
-  creation: { complete: false, currentStep: 0 },
-  miniature: null,
-  gallery: [],
-  title: '',
-  description: '',
-  note: '',
-  informations: { gender: 'unisex', moods: [], labels: [], who: [] },
-  about: null,
-  tags: null,
-  pricing: null,
-  options: [],
-  reservation_policy: null,
-  activities: [],
-  category: null,
-  type: 'product',
-  delivery: {
-    ownDelivery: {
-      enabled: false,
-      freeAfterOrderPrice: null,
-      note: '',
-      preparationDelay: null,
-      price: null,
-      pricing: null
-    },
-    shippingOptions: [],
-    takeAway: { enabled: false, preparationDelay: null, note: '' }
-  },
-  giftPackage: { available: false, price: null },
-  characteristics: {
-    height: null,
-    length: null,
-    volume: null,
-    weight: null,
-    width: null
-  },
-  id: '60a15faf64f3b30782b3b3a8'
+  // enabled: false,
+  // creation: { complete: false, currentStep: 0 },
+  // miniature: null,
+  // gallery: [],
+  // title: '',
+  // description: '',
+  // note: '',
+  // informations: { gender: 'unisex', moods: [], labels: [], who: [] },
+  // about: null,
+  // tags: null,
+  // pricing: null,
+  // options: [],
+  // reservation_policy: null,
+  // activities: [],
+  // category: null,
+  // type: 'product',
+  // delivery: {
+  //   ownDelivery: {
+  //     enabled: false,
+  //     freeAfterOrderPrice: null,
+  //     note: '',
+  //     preparationDelay: null,
+  //     price: null,
+  //     pricing: null
+  //   },
+  //   shippingOptions: [],
+  //   takeAway: { enabled: false, preparationDelay: null, note: '' }
+  // },
+  // giftPackage: { available: false, price: null },
+  // characteristics: {
+  //   height: null,
+  //   length: null,
+  //   volume: null,
+  //   weight: null,
+  //   width: null
+  // },
+  id: 'xce'
 }
 
 const schema = {
@@ -99,6 +99,8 @@ const BasicExample = () => {
       console.log(`There is error(s) in form`)
     }
   }
+
+  console.log(form.toJSON())
 
   return null
 

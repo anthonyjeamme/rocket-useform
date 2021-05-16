@@ -181,6 +181,8 @@ function checkSchemaMatchData(
     schemaType
   })
 
+  console.log(JSON.stringify(schema))
+
   if (!dataType) return schemaType
 
   if (schemaType !== dataType)
