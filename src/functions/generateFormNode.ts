@@ -164,7 +164,7 @@ function checkSchemaMatchData(
   path: TFormNodePath
 ) {
   const dataType =
-    data === undefined || data === null
+    data === undefined
       ? null
       : Array.isArray(data)
       ? 'array'
@@ -173,14 +173,6 @@ function checkSchemaMatchData(
       : 'value'
 
   const schemaType = getSchemaNodeType(schema)
-
-  console.log({
-    data: JSON.stringify(data),
-    type: typeof data,
-    dataType,
-    schema: JSON.stringify(schema),
-    schemaType
-  })
 
   if (!dataType) return schemaType
 
@@ -198,11 +190,7 @@ const getSchemaNodeType = (
     | TObjectFormSchemaNode
     | TArrayFormSchemaNode
 ): TFormSchemaNodeType => {
-  if (
-    !schemaNode ||
-    (typeof schemaNode === 'object' && Object.keys(schemaNode).length === 0)
-  )
-    return null
+  if (!schemaNode) return null
   if (!schemaNode.__node) return 'object'
   return schemaNode?.__node
 }
