@@ -176,6 +176,7 @@ function checkSchemaMatchData(
 
   console.log({
     data: JSON.stringify(data),
+    type: typeof data,
     dataType,
     schema: JSON.stringify(schema),
     schemaType
@@ -197,7 +198,11 @@ const getSchemaNodeType = (
     | TObjectFormSchemaNode
     | TArrayFormSchemaNode
 ): TFormSchemaNodeType => {
-  if (!schemaNode) return null
+  if (
+    !schemaNode ||
+    (typeof schemaNode === 'object' && Object.keys(schemaNode).length === 0)
+  )
+    return null
   if (!schemaNode.__node) return 'object'
   return schemaNode?.__node
 }
