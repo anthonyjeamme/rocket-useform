@@ -48,6 +48,7 @@ const objectGetter = ({
   }
 
   const remove = () => {
+    console.log(path)
     const node = getObjectPathChild(
       formDataRef.current,
       path,
@@ -69,11 +70,11 @@ const objectGetter = ({
 
     formTools.refresh()
     formTools.handleModified({
-      path: pathToArrayPath(path).slice(-1),
+      path: pathToArrayPath(node.__path).slice(0, -1),
       oldValue: null,
       newValue: null,
       action: 'remove',
-      removedIndex: parseInt(pathToArrayPath(path).slice(-1)[0], 10),
+      removedIndex: parseInt(pathToArrayPath(node.__path).slice(-1)[0], 10),
       targetType: 'array'
     })
   }
