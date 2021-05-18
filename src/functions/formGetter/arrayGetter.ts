@@ -34,6 +34,14 @@ const arrayGetter = ({
       path: pathToArrayPath(path)
     })
     if (refresh) formTools.refresh()
+
+    formTools.handleModified({
+      path: pathToArrayPath(path),
+      oldValue: null,
+      newValue: null,
+      action: 'set',
+      targetType: 'array'
+    })
   }
 
   return {
@@ -90,6 +98,14 @@ const arrayGetter = ({
       child.__children = children
 
       formTools.refresh()
+
+      formTools.handleModified({
+        path: pathToArrayPath(path),
+        oldValue: null,
+        newValue: null,
+        action: 'insert',
+        targetType: 'array'
+      })
     },
 
     toJSON: () => {

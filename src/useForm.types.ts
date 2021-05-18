@@ -77,18 +77,27 @@ export class TFormDataValueNode<T = any> extends TFormDataNodeInterface {
   __type: TFormDataValueFieldType
   __error: boolean
   __value: T
+  __listeners: {
+    change: any[]
+  }
 }
 
 export class TFormDataArrayNode extends TFormDataNodeInterface {
   __node: 'array'
   __error: boolean
   __children: TFormDataNode[]
+  __listeners: {
+    change: any[]
+  }
 }
 
 export class TFormDataObjectNode extends TFormDataNodeInterface {
   __node: 'object'
   __error: boolean
   __children: { [key: string]: TFormDataNode }
+  __listeners: {
+    change: any[]
+  }
 }
 
 export class TFormDataRawNode extends TFormDataNodeInterface {
@@ -111,14 +120,13 @@ export type TFormNodeStringPath = string
 export type TFormNodeArrayPath = string[]
 
 export type TFormTools = {
-  handleModified: ({
-    path,
-    oldValue,
-    newValue
-  }: {
+  handleModified: (props: {
     path?: TFormNodeArrayPath
     oldValue?: any
     newValue?: any
+    action?: string
+    targetType?: string
+    removedIndex?: number
   }) => void
   refresh: () => void
   generateId: () => string
@@ -153,6 +161,9 @@ export type TFormObjectGetter = {
   remove: () => void
   set: (data: any, refresh?: boolean) => void
   getPath: () => TFormNodeArrayPath
+
+  addEventListener: (event, callback) => void
+  removeEventListener: (event, callback) => void
 } & TFormGetters
 
 export type TFormArrayGetter = {

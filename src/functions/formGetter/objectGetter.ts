@@ -7,6 +7,7 @@ import {
 import {
   getObjectPathChild,
   mergePaths,
+  pathToArrayPath,
   pathToStringPath,
   replaceAtPath
 } from '../../utils/formPath'
@@ -30,6 +31,10 @@ const objectGetter = ({
     replaceAtPath(formDataRef, path, data, formParams, formTools)
     formTools.handleModified(null)
     if (refresh) formTools.refresh()
+
+    child.__listeners.change.forEach((func) => {
+      func()
+    })
   }
 
   const value = (targetPath: TFormNodePath) => {
@@ -63,6 +68,24 @@ const objectGetter = ({
     )
 
     formTools.refresh()
+    formTools.handleModified({
+      path: pathToArrayPath(path).slice(-1),
+      oldValue: null,
+      newValue: null,
+      action: 'remove',
+      removedIndex: parseInt(pathToArrayPath(path).slice(-1)[0], 10),
+      targetType: 'array'
+    })
+  }
+
+  const addEventListener = (event, callback) => {
+    child.__listeners[event].push(callback)
+  }
+
+  const removeEventListener = (event, callback) => {
+    child.__listeners[event] = child.__listeners[event].filter(
+      (c) => c !== callback
+    )
   }
 
   return {
@@ -75,7 +98,9 @@ const objectGetter = ({
     }),
     set,
     value,
-    remove
+    remove,
+    addEventListener,
+    removeEventListener
   }
 }
 

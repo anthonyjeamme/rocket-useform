@@ -70,7 +70,10 @@ function generateObjectFormNode(
     __path: path,
     __schema: schema,
     __node: 'object',
-    __children: {}
+    __children: {},
+    __listeners: {
+      change: []
+    }
   }
 
   for (const key of keys) {
@@ -135,7 +138,10 @@ function generateArrayFormNode(
     ...schema,
     __error: false,
     __schema: schema,
-    __children
+    __children,
+    __listeners: {
+      change: []
+    }
   }
 }
 
@@ -154,7 +160,10 @@ function generateValueFormNode(
     __node: schema.__node,
     __type: schema.__type,
     __value,
-    __path: path
+    __path: path,
+    __listeners: {
+      change: []
+    }
   }
 }
 
