@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { useForm } from 'rocket-useform'
+import { arrayField, booleanField, textField, useForm } from 'rocket-useform'
 
 const data = {
   // enabled: false,
@@ -43,147 +43,113 @@ const data = {
 }
 
 const schema = {
-  // type: textField(),
-  // title: textField(),
-  // category: textField(),
-  // tva: numberField(),
-  // description: textField({ required: true }),
-  // note: textField({ required: false, defaultValue: '' }),
-  // schedules: {
-  //   type: textField()
-  // },
-  // informations: {
-  //   gender: textField({ required: true, defaultValue: 'unisex' }),
-  //   moods: arrayField(textField()),
-  //   who: arrayField(textField(), {
-  //     defaultValue: ['everyone']
-  //   }),
-  //   labels: arrayField(textField())
-  // },
-  // time_limit: numberField({
-  //   // validation: (value, get) => {
-  //   // 	return true
-  //   // 	if (get('parent._type').value !== 'service') return true
-  //   // 	return !!value
-  //   // }
-  // }),
-  // reservation_policy: {
-  //   confirmation_method: textField({ required: true }),
-  //   cancellation: textField({ required: true })
-  // },
-  // activities: arrayField(textField(), {})
+  test: {
+    name: textField(),
+    majeur: booleanField()
+  },
+
+  list: arrayField({
+    name: textField()
+  })
 }
 
 const BasicExample = () => {
-  const refreshCounter = useRef<number>(0)
   const form = useForm(data, schema)
-  const textareaRef = useRef<any>()
 
   useEffect(() => {
-    const handleChange = (event: any) => {
-      console.log(event)
-      // @ts-ignore
-      textareaRef.current.value = JSON.stringify(form.toJSON(), null, 2)
+    const handleUp = ({ ...p }) => {
+      console.log('ok', p)
     }
 
-    form.addEventListener('change', handleChange)
-    return () => {
-      form.removeEventListener('change', handleChange)
-    }
+    form.addEventListener('change', handleUp)
   }, [])
 
-  const handleSave = () => {
-    if (form.checkForm()) {
-      form.setModified(false)
-    } else {
-      console.log(`There is error(s) in form`)
-    }
-  }
+  // useEffect(() => {
+  //   const handleChange = (event: any) => {
+  //     console.log(event)
+  //     // @ts-ignore
+  //     textareaRef.current.value = JSON.stringify(form.toJSON(), null, 2)
+  //   }
 
-  console.log(form.toJSON())
+  //   form.addEventListener('change', handleChange)
+  //   return () => {
+  //     form.removeEventListener('change', handleChange)
+  //   }
+  // }, [])
 
-  return null
+  // const handleSave = () => {
+  //   if (form.checkForm()) {
+  //     form.setModified(false)
+  //   } else {
+  //     console.log(`There is error(s) in form`)
+  //   }
+  // }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        padding: 40
-      }}
-    >
-      <div style={{ flex: 1 }}>
-        <div
-          style={{
-            padding: 40
-          }}
-        >
-          {form.getArray('closed_periods').map(() => (
-            <div>item</div>
-          ))}
+    <div>
+      <h1>okok</h1>
 
+      <input
+        value={form.getValue('test.name').value}
+        onChange={(e) => {
+          form.getValue('test.name').update(e.target?.value, true)
+        }}
+      />
+
+      <hr />
+
+      {form.getArray('list').map((item) => (
+        <div key={item.id}>
+          <input
+            value={item.getValue('name').value}
+            onChange={(e) => {
+              item.getValue('name').update(e.target?.value, true)
+            }}
+          />
           <button
             onClick={() => {
-              form.getArray('closed_periods').insert({})
+              item.remove()
             }}
           >
-            text
+            Remove
           </button>
         </div>
+      ))}
 
-        <div>Refresh counter : {refreshCounter.current++}</div>
+      <hr />
+      <button
+        onClick={() => {
+          form.getArray('list').insert({})
+        }}
+      >
+        plust
+      </button>
 
-        <div>
-          <Input
-            placeholder='firstName'
-            {...matchCustomInput(form.get('user.firstName'))}
-          />
-          <Input
-            placeholder='lastName'
-            {...matchCustomInput(form.get('user.lastName'))}
-          />
-          <Input
-            type='number'
-            placeholder='age'
-            {...matchCustomInput(form.get('user.age'))}
-          />
-        </div>
-
-        <div>
-          <button disabled={!form.modified} onClick={handleSave}>
-            Save
-          </button>
-        </div>
-      </div>
-      <div style={{ flex: 1, position: 'relative' }}>
-        <textarea
-          ref={textareaRef}
-          style={{
-            width: '100%',
-            height: 500,
-            fontSize: 12
-          }}
-          readOnly
-          defaultValue={JSON.stringify(form.toJSON(), null, 2)}
-        />
-      </div>
+      <button
+        onClick={() => {
+          form.getArray('list').set([], true)
+        }}
+      >
+        replace
+      </button>
     </div>
   )
 }
 
 export default BasicExample
 
-const Input = ({ value, onChange, error, ...props }: any) => (
-  <input
-    {...props}
-    defaultValue={value}
-    onChange={(e) => {
-      onChange(e.target.value)
-    }}
-    style={{
-      border: error ? `1px solid red` : `1px solid #dddddd`
-    }}
-  />
-)
+// const Input = ({ value, onChange, error, ...props }: any) => (
+//   <input
+//     {...props}
+//     defaultValue={value}
+//     onChange={(e) => {
+//       onChange(e.target.value)
+//     }}
+//     style={{
+//       border: error ? `1px solid red` : `1px solid #dddddd`
+//     }}
+//   />
+// )
 
 export const matchCustomInput = ({ value, update, error }: any) => ({
   value,
