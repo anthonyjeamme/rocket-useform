@@ -151,7 +151,10 @@ function generateValueFormNode(
   path: TFormNodePath,
   formTools: TFormTools
 ): TFormDataValueNode | TFormDataRawNode {
-  const __value = value || schema.__params.defaultValue || null
+  const __value =
+    value !== undefined ? value : schema.__params.defaultValue || null
+
+  // value || schema.__params.defaultValue || null
 
   return {
     __id: formTools.generateId(),
