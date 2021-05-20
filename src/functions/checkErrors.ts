@@ -1,4 +1,5 @@
 import {
+  TArrayFormSchemaNode,
   TFormDataArrayNode,
   TFormDataNode,
   TFormDataObjectNode,
@@ -8,6 +9,8 @@ import {
   TFormTools,
   TValueFormSchemaNode
 } from '../useForm.types'
+
+import { formNodeToJSON } from './formNodeToJSON'
 
 import formGetter from './formGetter/formGetter'
 
@@ -56,6 +59,23 @@ const checkErrors = ({
     for (const [index, child] of Array.from(node.__children.entries())) {
       if (!checkNodeError(child, mergePaths([path, [`${index}`]]))) {
         hasError = true
+      }
+    }
+
+    const params = (node.__schema as TArrayFormSchemaNode).__params
+
+    if (params.validation) {
+      const isValid = params.validation(formNodeToJSON(node), (p) => {
+        return getObjectPathChild(
+          formDataRef.current,
+          mergePaths([path, p]),
+          {}
+        )
+      })
+
+      if (!isValid) {
+        node.__error = true
+        return false
       }
     }
 

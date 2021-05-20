@@ -1,27 +1,39 @@
 import React, { useEffect } from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { booleanField, useForm } from 'rocket-useform'
+import { arrayField, textField, useForm } from 'rocket-useform'
 
 const data = {
-  enabled: false
+  list: [{}]
 }
 
 const schema = {
-  enabled: booleanField()
+  list: arrayField(
+    {
+      name: textField({
+        required: true,
+        validation: (value) => {
+          return !!value
+        },
+        defaultValue: 'bla'
+      })
+    },
+    {
+      required: true,
+      validation: (value) => {
+        console.log({ value })
+        console.log('XXXXXXXXXX')
+        return false
+      }
+    }
+  )
 }
 
 const BasicExample = () => {
   const form = useForm(data, schema)
 
   useEffect(() => {
-    const handleUp = ({ ...p }) => {
-      console.log('ok', p)
-    }
-
-    form.addEventListener('change', handleUp)
+    console.log(form.checkForm())
   }, [])
-
-  console.log(form.getValue('enabled').value)
 
   // useEffect(() => {
   //   const handleChange = (event: any) => {
@@ -44,7 +56,13 @@ const BasicExample = () => {
   //   }
   // }
 
-  return <div></div>
+  return (
+    <div>
+      {form.getArray('list').map((item) => (
+        <div key={item.id}>ok</div>
+      ))}
+    </div>
+  )
 }
 
 export default BasicExample
