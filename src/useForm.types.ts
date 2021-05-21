@@ -173,9 +173,9 @@ export type TFormArrayGetter = {
   error: boolean
   set: (data: any, refresh?: boolean) => void
   getPath: () => TFormNodeArrayPath
-  remove: () => void
 
   // Array specific fields
+  remove: () => void
   length: number
   map: (callback: (props: any, index: number) => any) => any[]
   insert: (data: any, index?: number) => void
