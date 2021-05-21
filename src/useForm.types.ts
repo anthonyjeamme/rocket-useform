@@ -173,6 +173,7 @@ export type TFormArrayGetter = {
   error: boolean
   set: (data: any, refresh?: boolean) => void
   getPath: () => TFormNodeArrayPath
+  remove: () => void
 
   // Array specific fields
   length: number

@@ -44,6 +44,37 @@ const arrayGetter = ({
     })
   }
 
+  const remove = () => {
+    const node = getObjectPathChild(
+      formDataRef.current,
+      path,
+      formParams
+    ) as TFormDataArrayNode
+
+    const parent = getObjectPathChild(
+      formDataRef.current,
+      mergePaths([path, 'parent']),
+      formParams
+    ) as TFormDataArrayNode
+
+    if (parent.__node !== 'array')
+      throw `Can't remove ${pathToStringPath(path)}, parent isn't an array`
+
+    parent.__children = parent.__children.filter(
+      (child) => child.__id !== node.__id
+    )
+
+    formTools.refresh()
+    formTools.handleModified({
+      path: pathToArrayPath(node.__path).slice(0, -1),
+      oldValue: null,
+      newValue: null,
+      action: 'remove',
+      removedIndex: parseInt(pathToArrayPath(node.__path).slice(-1)[0], 10),
+      targetType: 'array'
+    })
+  }
+
   return {
     ...getGetterGenericFields({ formDataRef, child, path, formParams }),
     set,
@@ -67,6 +98,7 @@ const arrayGetter = ({
       formTools,
       path
     }),
+    remove,
     insert: (data: any, index: number = null) => {
       const child = getObjectPathChild(
         formDataRef.current,
