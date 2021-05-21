@@ -48,7 +48,6 @@ const objectGetter = ({
   }
 
   const remove = () => {
-    console.log(path)
     const node = getObjectPathChild(
       formDataRef.current,
       path,

@@ -8,7 +8,7 @@
 <b>WARNING: library in alpha version</b>
 
 Rocket useForm is a rich React library based on useRef.
-It's a easy-to-use solution to build big and complex forms.
+It's an easy-to-use solution to build big and complex forms.
 
 ## Installation
 

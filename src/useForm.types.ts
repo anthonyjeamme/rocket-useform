@@ -143,6 +143,7 @@ export type TFormParams = {
 export type TFormValueGetter = {
   id: string
   value: any
+  remove: () => void
   update: (value: any, refresh?: boolean) => void
   error: boolean
   getPath: () => TFormNodeArrayPath
