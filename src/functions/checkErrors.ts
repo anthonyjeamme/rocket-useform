@@ -1,5 +1,6 @@
 import {
   TArrayFormSchemaNode,
+  TCheckFormParams,
   TFormDataArrayNode,
   TFormDataNode,
   TFormDataObjectNode,
@@ -14,7 +15,11 @@ import { formNodeToJSON } from './formNodeToJSON'
 
 import formGetter from './formGetter/formGetter'
 
-import { getObjectPathChild, mergePaths } from '../utils/formPath'
+import {
+  getObjectPathChild,
+  mergePaths,
+  pathToStringPath
+} from '../utils/formPath'
 
 /**
  * Recursively check errors.
@@ -25,15 +30,18 @@ import { getObjectPathChild, mergePaths } from '../utils/formPath'
  *
  * If name has an error, each nodes [user] and [name] will get __error=true.
  */
-const checkErrors = ({
-  formTools,
-  formParams,
-  formDataRef
-}: {
-  formTools: TFormTools
-  formParams?: TFormParams
-  formDataRef: React.MutableRefObject<TFormDataNode>
-}) => {
+const checkErrors = (
+  {
+    formTools,
+    formParams,
+    formDataRef
+  }: {
+    formTools: TFormTools
+    formParams?: TFormParams
+    formDataRef: React.MutableRefObject<TFormDataNode>
+  },
+  checkParams?: TCheckFormParams
+) => {
   const checkObjectNodeError = (
     node: TFormDataObjectNode,
     path: TFormNodePath
@@ -74,6 +82,9 @@ const checkErrors = ({
       })
 
       if (!isValid) {
+        if (checkParams?.log) {
+          console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+        }
         node.__error = true
         return false
       }
@@ -123,12 +134,19 @@ const checkErrors = ({
       })
 
       if (!isValid) {
+        if (checkParams?.log) {
+          console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+        }
         node.__error = true
         return false
       }
     } else if (params.validators?.length) {
       for (const validator of params.validators) {
         if (!validator(node.__value)) {
+          if (checkParams?.log) {
+            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+          }
+
           node.__error = true
           return false
         }
@@ -136,11 +154,17 @@ const checkErrors = ({
     } else {
       if (node.__type === 'string') {
         if ([null, undefined, ''].includes(node.__value)) {
+          if (checkParams?.log) {
+            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+          }
           node.__error = true
           return false
         }
       } else if (node.__type === 'number') {
         if (parseFloat(node.__value) === NaN) {
+          if (checkParams?.log) {
+            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+          }
           node.__error = true
           return false
         }

@@ -6,7 +6,7 @@ export type TForm = {
   toJSON: () => any
   modified: boolean
   setModified: (modified: boolean) => void
-  checkForm: () => boolean
+  checkForm: (params?: TCheckFormParams) => boolean
 
   /**
    * Generic field getter. Better to use getObject, getArray or getValue.
@@ -40,6 +40,10 @@ export type TForm = {
     event: TFormEventType,
     callbackTFormEventCallback
   ) => void
+}
+
+export type TCheckFormParams = {
+  log?: boolean
 }
 
 export type TFormEventListenerRef = {

@@ -12,7 +12,8 @@ import {
   TFormParams,
   TFormSchema,
   TFormTools,
-  TFormEventListenerRef
+  TFormEventListenerRef,
+  TCheckFormParams
 } from './useForm.types'
 import { pathToStringPath } from './utils/formPath'
 import { getStandardGetters } from './functions/formGetter/formGetter.common'
@@ -51,8 +52,8 @@ export function useForm<T = any>(
 
   const toJSON = () => formNodeToJSON(formDataRef.current)
 
-  const checkForm = () => {
-    const isOk = checkErrors({ formTools, formParams, formDataRef })
+  const checkForm = (params: TCheckFormParams) => {
+    const isOk = checkErrors({ formTools, formParams, formDataRef }, params)
     refresh()
     return isOk
   }
