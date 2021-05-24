@@ -83,7 +83,7 @@ const checkErrors = (
 
       if (!isValid) {
         if (checkParams?.log) {
-          console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+          logError(pathToStringPath(path))
         }
         node.__error = true
         return false
@@ -135,7 +135,7 @@ const checkErrors = (
 
       if (!isValid) {
         if (checkParams?.log) {
-          console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+          logError(pathToStringPath(path))
         }
         node.__error = true
         return false
@@ -144,7 +144,7 @@ const checkErrors = (
       for (const validator of params.validators) {
         if (!validator(node.__value)) {
           if (checkParams?.log) {
-            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+            logError(pathToStringPath(path))
           }
 
           node.__error = true
@@ -155,7 +155,7 @@ const checkErrors = (
       if (node.__type === 'string') {
         if ([null, undefined, ''].includes(node.__value)) {
           if (checkParams?.log) {
-            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+            logError(pathToStringPath(path))
           }
           node.__error = true
           return false
@@ -163,7 +163,7 @@ const checkErrors = (
       } else if (node.__type === 'number') {
         if (parseFloat(node.__value) === NaN) {
           if (checkParams?.log) {
-            console.log(`Field '${pathToStringPath(path)}' validation failed.`)
+            logError(pathToStringPath(path))
           }
           node.__error = true
           return false
@@ -192,3 +192,12 @@ const checkErrors = (
 }
 
 export default checkErrors
+
+const logError = (pathString: string) =>
+  console.log(
+    `Field %c'${pathString}' %cvalidation %cfailed%c.`,
+    'color: orange',
+    'color: unset',
+    'color: #e74c3c',
+    'color: unset'
+  )
