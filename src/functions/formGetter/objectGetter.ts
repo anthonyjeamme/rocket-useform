@@ -28,8 +28,20 @@ const objectGetter = ({
   }
 
   const set = (data, refresh = false) => {
+    const node = getObjectPathChild(
+      formDataRef.current,
+      path,
+      formParams
+    ) as TFormDataObjectNode
+
     replaceAtPath(formDataRef, path, data, formParams, formTools)
-    formTools.handleModified(null)
+    formTools.handleModified({
+      path: pathToArrayPath(node.__path).slice(0, -1),
+      oldValue: null,
+      newValue: null,
+      action: 'set',
+      targetType: 'array'
+    })
     if (refresh) formTools.refresh()
 
     child.__listeners.change.forEach((func) => {
