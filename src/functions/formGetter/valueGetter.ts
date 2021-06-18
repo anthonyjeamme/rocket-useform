@@ -20,7 +20,7 @@ const parseValue = (value: any, type: TFormDataValueFieldType) => {
     case 'string':
       return value?.toString?.()
     case 'number':
-      return parseFloat(value)
+      return !value && value !== 0 ? null : parseFloat(value)
     case 'boolean':
       return !!value
   }
