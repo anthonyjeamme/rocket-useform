@@ -21,14 +21,14 @@ const arrayGetter = ({
   path,
   formTools,
   formParams
-}: TGetterProps): TFormArrayGetter => {
+}: TGetterProps): TFormArrayGetter | null => {
   const child = getObjectPathChild(formDataRef.current, path, formParams)
   if (child.__node !== 'array') {
     console.error(`${pathToStringPath(path)} is not an array`)
     return null
   }
 
-  const set = (data, refresh = false) => {
+  const set = (data: any, refresh = false) => {
     replaceAtPath(formDataRef, path, data, formParams, formTools)
     formTools.handleModified({
       path: pathToArrayPath(path)
@@ -99,7 +99,7 @@ const arrayGetter = ({
       path
     }),
     remove,
-    insert: (data: any, index: number = null) => {
+    insert: (data: any, index: number | null = null) => {
       const child = getObjectPathChild(
         formDataRef.current,
         path,
@@ -127,6 +127,7 @@ const arrayGetter = ({
         ...child.__children.slice(_index)
       ]
 
+      // @ts-ignore
       child.__children = children
 
       formTools.refresh()
@@ -145,7 +146,7 @@ const arrayGetter = ({
         getObjectPathChild(formDataRef.current, path, formParams)
       )
     }
-  }
+  } as TFormArrayGetter
 }
 
 export default arrayGetter

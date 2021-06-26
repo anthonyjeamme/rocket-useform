@@ -15,14 +15,18 @@ import {
 import { mergePaths, pathToStringPath } from '../utils/formPath'
 
 export function generateFormData(
-  data,
-  schema,
+  data: any,
+  schema: any,
   path: TFormNodePath = [],
   formTools: TFormTools
-): TFormDataNode {
+): TFormDataNode | null {
   if (!schema) return generateRawFormNode(data, path, formTools)
 
-  const type: TFormSchemaNodeType = checkSchemaMatchData(data, schema, path)
+  const type: TFormSchemaNodeType | null = checkSchemaMatchData(
+    data,
+    schema,
+    path
+  )
 
   switch (type) {
     case 'object':
@@ -37,7 +41,7 @@ export function generateFormData(
 }
 
 const generateRawFormNode = (
-  data,
+  data: any,
   path: TFormNodePath,
   formTools: TFormTools
 ): TFormDataRawNode => ({
@@ -49,8 +53,8 @@ const generateRawFormNode = (
 })
 
 function generateObjectFormNode(
-  data,
-  schema,
+  data: any,
+  schema: any,
   path: TFormNodePath,
   formTools: TFormTools
 ): TFormDataObjectNode | TFormDataRawNode {
@@ -77,6 +81,7 @@ function generateObjectFormNode(
   }
 
   for (const key of keys) {
+    // @ts-ignore
     formData.__children[key] = generateFormData(
       data?.[key],
       schema?.[key],
@@ -89,15 +94,15 @@ function generateObjectFormNode(
 }
 
 function generateArrayFormNode(
-  data,
-  schema,
+  data: any,
+  schema: any,
   path: TFormNodePath,
   formTools: TFormTools
 ): TFormDataArrayNode | TFormDataRawNode {
   const params = schema.__params
 
   let __children =
-    data?.map((item, i) =>
+    data?.map((item: any, i: number) =>
       generateFormData(
         item,
         schema.__childType,
@@ -146,7 +151,7 @@ function generateArrayFormNode(
 }
 
 function generateValueFormNode(
-  value,
+  value: any,
   schema: TValueFormSchemaNode,
   path: TFormNodePath,
   formTools: TFormTools
@@ -175,7 +180,7 @@ function generateValueFormNode(
 }
 
 function checkSchemaMatchData(
-  data,
+  data: any,
   schema: TFormSchemaNode,
   path: TFormNodePath
 ) {
@@ -205,7 +210,7 @@ const getSchemaNodeType = (
     | TValueFormSchemaNode
     | TObjectFormSchemaNode
     | TArrayFormSchemaNode
-): TFormSchemaNodeType => {
+): TFormSchemaNodeType | null => {
   if (!schemaNode) return null
   if (!schemaNode.__node) return 'object'
   return schemaNode?.__node

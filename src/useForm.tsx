@@ -50,9 +50,11 @@ export function useForm<T = any>(
     generateFormData(data, schema, [], formTools)
   )
 
+  // @ts-ignore
   const toJSON = () => formNodeToJSON(formDataRef.current)
 
-  const checkForm = (params: TCheckFormParams) => {
+  const checkForm = (params?: TCheckFormParams) => {
+    // @ts-ignore
     const isOk = checkErrors({ formTools, formParams, formDataRef }, params)
     refresh()
     return isOk
@@ -88,7 +90,7 @@ export function useForm<T = any>(
       formTools,
       formParams
     })
-  }
+  } as TForm
 }
 
 const useIdGenerator = () => {

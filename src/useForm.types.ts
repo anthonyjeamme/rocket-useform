@@ -31,14 +31,17 @@ export type TForm = {
   /**
    *
    */
-  addEventListener: (event: TFormEventType, callbackTFormEventCallback) => void
+  addEventListener: (
+    event: TFormEventType,
+    callbackTFormEventCallback: any
+  ) => void
 
   /**
    *
    */
   removeEventListener: (
     event: TFormEventType,
-    callbackTFormEventCallback
+    callbackTFormEventCallback: any
   ) => void
 }
 
@@ -69,14 +72,14 @@ export type TUseFormReturns<T = any> = {
 export type TFormDataValueFieldType = 'string' | 'boolean' | 'number'
 export type TFormSchemaNodeType = 'value' | 'object' | 'array' | 'raw'
 
-export class TFormDataNodeInterface {
+export interface TFormDataNodeInterface {
   __id: string
   __schema: TFormSchema
   __path: TFormNodePath
   __node: TFormSchemaNodeType
 }
 
-export class TFormDataValueNode<T = any> extends TFormDataNodeInterface {
+export interface TFormDataValueNode<T = any> extends TFormDataNodeInterface {
   __node: 'value'
   __type: TFormDataValueFieldType
   __error: boolean
@@ -86,7 +89,7 @@ export class TFormDataValueNode<T = any> extends TFormDataNodeInterface {
   }
 }
 
-export class TFormDataArrayNode extends TFormDataNodeInterface {
+export interface TFormDataArrayNode extends TFormDataNodeInterface {
   __node: 'array'
   __error: boolean
   __children: TFormDataNode[]
@@ -95,7 +98,7 @@ export class TFormDataArrayNode extends TFormDataNodeInterface {
   }
 }
 
-export class TFormDataObjectNode extends TFormDataNodeInterface {
+export interface TFormDataObjectNode extends TFormDataNodeInterface {
   __node: 'object'
   __error: boolean
   __children: { [key: string]: TFormDataNode }
@@ -104,7 +107,7 @@ export class TFormDataObjectNode extends TFormDataNodeInterface {
   }
 }
 
-export class TFormDataRawNode extends TFormDataNodeInterface {
+export interface TFormDataRawNode extends TFormDataNodeInterface {
   __node: 'raw'
   __value: any
 }
@@ -167,8 +170,8 @@ export type TFormObjectGetter = {
   set: (data: any, refresh?: boolean) => void
   getPath: () => TFormNodeArrayPath
 
-  addEventListener: (event, callback) => void
-  removeEventListener: (event, callback) => void
+  addEventListener: (event: any, callback: any) => void
+  removeEventListener: (event: any, callback: any) => void
 } & TFormGetters
 
 export type TFormArrayGetter = {
@@ -201,21 +204,21 @@ export type TFormValidationFunction = (
 // SCHEMA
 //
 
-export class TFormSchemaNode {
+export interface TFormSchemaNode {
   getPath: () => TFormNodeArrayPath
 }
 
-export class TValueFormSchemaNode extends TFormSchemaNode {
+export interface TValueFormSchemaNode extends TFormSchemaNode {
   __node: 'value'
   __params: TFormSchemaValueParams<any, any>
   __type: TFormDataValueFieldType
 }
 
-export class TObjectFormSchemaNode extends TFormSchemaNode {
+export interface TObjectFormSchemaNode extends TFormSchemaNode {
   __node?: 'object'
 }
 
-export class TArrayFormSchemaNode extends TFormSchemaNode {
+export interface TArrayFormSchemaNode extends TFormSchemaNode {
   __node: 'array'
   __childType: TFormSchemaNode
   __params: TFormSchemaArrayParams
@@ -228,6 +231,7 @@ export type TFormSchemaValueParams<TGetter, TDataType> = {
   validation?: TFormValidationFunction
   validators?: TFormValidator[]
   autoRefresh?: boolean
+  ignoreInJSON?: boolean
 }
 
 export type TFormSchemaArrayParams = {

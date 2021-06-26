@@ -31,14 +31,15 @@ const valueGetter = ({
   path,
   formTools,
   formParams
-}: TGetterProps): TFormValueGetter => {
+}: TGetterProps): TFormValueGetter | null => {
   const child = getObjectPathChild(formDataRef.current, path, formParams)
+
   if (child.__node !== 'value') {
     console.error(`${pathToStringPath(path)} is not a value`)
     return null
   }
 
-  const update = (value, refresh = false) => {
+  const update = (value: any, refresh = false) => {
     const node = getObjectPathChild(
       formDataRef.current,
       path,
@@ -113,7 +114,7 @@ const valueGetter = ({
     value: child.__value,
     remove,
     update
-  }
+  } as TFormValueGetter
 }
 
 export default valueGetter

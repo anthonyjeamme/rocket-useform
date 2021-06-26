@@ -8,25 +8,25 @@ import { TGetterProps } from './formGetter.types'
 import { TFormGetter } from '../../useForm.types'
 
 const formGetter = ({
-	formDataRef,
-	path,
-	formTools,
-	formParams
-}: TGetterProps): TFormGetter => {
-	const child = getObjectPathChild(formDataRef.current, path, formParams)
+  formDataRef,
+  path,
+  formTools,
+  formParams
+}: TGetterProps): TFormGetter | null => {
+  const child = getObjectPathChild(formDataRef.current, path, formParams)
 
-	const getterProps: TGetterProps = {
-		formDataRef,
-		path,
-		formTools,
-		formParams
-	}
+  const getterProps: TGetterProps = {
+    formDataRef,
+    path,
+    formTools,
+    formParams
+  }
 
-	if (child.__node === 'value') return valueGetter(getterProps)
-	if (child.__node === 'array') return arrayGetter(getterProps)
-	if (child.__node === 'object') return objectGetter(getterProps)
+  if (child.__node === 'value') return valueGetter(getterProps)
+  if (child.__node === 'array') return arrayGetter(getterProps)
+  if (child.__node === 'object') return objectGetter(getterProps)
 
-	return null
+  return null
 }
 
 export default formGetter

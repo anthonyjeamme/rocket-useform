@@ -73,7 +73,7 @@ const checkErrors = (
     const params = (node.__schema as TArrayFormSchemaNode).__params
 
     if (params.validation) {
-      const isValid = params.validation(formNodeToJSON(node), (p) => {
+      const isValid = params.validation(formNodeToJSON(node), (p: any) => {
         return getObjectPathChild(
           formDataRef.current,
           mergePaths([path, p]),
@@ -101,7 +101,7 @@ const checkErrors = (
           formGetter({
             formDataRef,
             path,
-            formParams,
+            formParams: formParams as TFormParams,
             formTools
           })
         )

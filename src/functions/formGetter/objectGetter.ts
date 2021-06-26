@@ -19,7 +19,7 @@ const objectGetter = ({
   path,
   formTools,
   formParams
-}: TGetterProps): TFormObjectGetter => {
+}: TGetterProps): TFormObjectGetter | null => {
   const child = getObjectPathChild(formDataRef.current, path, formParams)
 
   if (child.__node !== 'object') {
@@ -27,7 +27,7 @@ const objectGetter = ({
     return null
   }
 
-  const set = (data, refresh = false) => {
+  const set = (data: any, refresh = false) => {
     const node = getObjectPathChild(
       formDataRef.current,
       path,
@@ -90,13 +90,15 @@ const objectGetter = ({
     })
   }
 
-  const addEventListener = (event, callback) => {
+  const addEventListener = (event: any, callback: any) => {
+    // @ts-ignore
     child.__listeners[event].push(callback)
   }
 
-  const removeEventListener = (event, callback) => {
+  const removeEventListener = (event: any, callback: any) => {
+    // @ts-ignore
     child.__listeners[event] = child.__listeners[event].filter(
-      (c) => c !== callback
+      (c: any) => c !== callback
     )
   }
 
@@ -113,7 +115,7 @@ const objectGetter = ({
     remove,
     addEventListener,
     removeEventListener
-  }
+  } as TFormObjectGetter
 }
 
 export default objectGetter

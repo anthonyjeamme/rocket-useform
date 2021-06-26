@@ -19,13 +19,17 @@ const schema = {
     },
     {
       required: true,
-      validation: (value) => {
+      validation: (value: any) => {
         console.log({ value })
         console.log('XXXXXXXXXX')
         return false
       }
     }
-  )
+  ),
+  xxx: textField({
+    defaultValue: 'xxx',
+    ignoreInJSON: true
+  })
 }
 
 const BasicExample = () => {
@@ -61,6 +65,13 @@ const BasicExample = () => {
       {form.getArray('list').map((item) => (
         <div key={item.id}>ok</div>
       ))}
+      <button
+        onClick={() => {
+          console.log(form.toJSON())
+        }}
+      >
+        OK
+      </button>
     </div>
   )
 }

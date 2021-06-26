@@ -31,7 +31,7 @@ export const evalPath = (
   return path
 }
 
-export const pathToArrayPath = (path: any) => {
+export const pathToArrayPath = (path: any): any => {
   if (typeof path === 'string') return path.length === 0 ? [] : path.split('.')
   if (Array.isArray(path)) return path
   if (typeof path?.getPath === 'function')
@@ -39,7 +39,7 @@ export const pathToArrayPath = (path: any) => {
   return null
 }
 
-export const pathToStringPath = (path: any) => {
+export const pathToStringPath = (path: any): any => {
   if (typeof path === 'string') return path
   if (Array.isArray(path)) return path.join('.')
   if (typeof path?.getPath === 'function')
@@ -51,8 +51,8 @@ export const replaceAtPath = (
   formDataRef: React.MutableRefObject<TFormDataNode>,
   path: TFormNodePath,
   data: any,
-  formParams,
-  formTools
+  formParams: any,
+  formTools: any
 ) => {
   const arrayPath = pathToArrayPath(path)
 
@@ -67,6 +67,7 @@ export const replaceAtPath = (
   const lastKey = arrayPath.slice(-1)[0]
 
   if (parent.__node === 'object' || parent.__node === 'array') {
+    // @ts-ignore
     parent.__children[lastKey] = generateFormData(
       data,
       node.__schema,
@@ -95,8 +96,10 @@ export function getObjectPathChild<T = any>(
         child = child.__children[key]
         break
       case 'array':
+        //@ts-ignore
         if (!child.__children[key])
           throw `Can't get ${pathToStringPath(path)}, [${key}] doesn't exists`
+        //@ts-ignore
         child = (child as TFormDataArrayNode).__children[key]
         break
     }
