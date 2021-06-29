@@ -116,14 +116,16 @@ const arrayGetter = ({
         }
       }
 
-      const children = [
-        ...child.__children.slice(0, _index),
-        generateFormData(
+      const newChildren = generateFormData(
           data,
           childType,
           mergePaths([path, child.__children.length.toString()]),
           formTools
-        ),
+        )
+
+      const children = [
+        ...child.__children.slice(0, _index),
+        newChildren,
         ...child.__children.slice(_index)
       ]
 
@@ -139,6 +141,8 @@ const arrayGetter = ({
         action: 'insert',
         targetType: 'array'
       })
+
+      return newChildren
     },
 
     toJSON: () => {
