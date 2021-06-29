@@ -185,7 +185,7 @@ export type TFormArrayGetter = {
   remove: () => void
   length: number
   map: (callback: (props: any, index: number) => any) => any[]
-  insert: (data: any, index?: number) => void
+  insert: (data: any, index?: number) => any
 } & TFormGetters
 
 export type TFormGetters = {
