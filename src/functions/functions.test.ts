@@ -20,6 +20,7 @@ describe('Hook functions', () => {
           refresh: () => {}
         })
 
+        // @ts-ignore
         expect(formNodeToJSON(res)).toStrictEqual(data)
       })
 
@@ -40,6 +41,7 @@ describe('Hook functions', () => {
           refresh: () => {}
         })
 
+        // @ts-ignore
         expect(formNodeToJSON(res)).toStrictEqual(data)
       })
 
@@ -86,6 +88,7 @@ describe('Hook functions', () => {
           refresh: () => {}
         })
 
+        // @ts-ignore
         expect(formNodeToJSON(res)).toStrictEqual(data)
       })
     })
@@ -103,6 +106,7 @@ describe('Hook functions', () => {
           refresh: () => {}
         })
 
+        // @ts-ignore
         expect(formNodeToJSON(res)).toStrictEqual({
           firstname: null,
           lastname: null

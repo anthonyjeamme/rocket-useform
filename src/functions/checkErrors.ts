@@ -20,6 +20,8 @@ import {
   mergePaths,
   pathToStringPath
 } from '../utils/formPath'
+import arrayGetter from './formGetter/arrayGetter'
+import valueGetter from './formGetter/valueGetter'
 
 /**
  * Recursively check errors.
@@ -73,13 +75,15 @@ const checkErrors = (
     const params = (node.__schema as TArrayFormSchemaNode).__params
 
     if (params.validation) {
-      const isValid = params.validation(formNodeToJSON(node), (p: any) => {
-        return getObjectPathChild(
-          formDataRef.current,
-          mergePaths([path, p]),
-          {}
-        )
-      })
+      const isValid = params.validation(
+        formNodeToJSON(node),
+        arrayGetter({
+          formDataRef,
+          path,
+          formParams: formParams as TFormParams,
+          formTools
+        })
+      )
 
       if (!isValid) {
         if (checkParams?.log) {
@@ -125,13 +129,16 @@ const checkErrors = (
     }
 
     if (params.validation) {
-      const isValid = params.validation(node.__value, (p) => {
-        return getObjectPathChild(
-          formDataRef.current,
-          mergePaths([path, p]),
-          {}
-        )
-      })
+      const isValid = params.validation(
+        node.__value,
+        // @ts-ignore
+        valueGetter({
+          formDataRef,
+          path,
+          formParams: formParams as TFormParams,
+          formTools
+        })
+      )
 
       if (!isValid) {
         if (checkParams?.log) {

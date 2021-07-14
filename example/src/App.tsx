@@ -1,98 +1,74 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // import { TFormEvent } from '../../hooks/useForm/useForm.types'
-import { arrayField, textField, useForm } from 'rocket-useform'
+import { useForm, textField, booleanField } from 'rocket-useform'
 
 const data = {
-  list: [{}]
+  required: true,
+  name: 'John'
 }
 
 const schema = {
-  list: arrayField(
-    {
-      name: textField({
-        required: true,
-        validation: (value) => {
-          return !!value
-        },
-        defaultValue: 'bla'
-      })
-    },
-    {
-      required: true,
-      validation: (value: any) => {
-        console.log({ value })
-        console.log('XXXXXXXXXX')
-        return false
-      }
+  required: booleanField(),
+  name: textField({
+    validation: (value, { getValue }) => {
+      //
+
+      const required = getValue('root.required').value
+
+      if (!required) return true
+
+      return value === 'tony'
     }
-  ),
-  xxx: textField({
-    defaultValue: 'xxx',
-    ignoreInJSON: true
   })
 }
 
 const BasicExample = () => {
   const form = useForm(data, schema)
 
-  useEffect(() => {
-    console.log(form.checkForm())
-  }, [])
-
-  // useEffect(() => {
-  //   const handleChange = (event: any) => {
-  //     console.log(event)
-  //     // @ts-ignore
-  //     textareaRef.current.value = JSON.stringify(form.toJSON(), null, 2)
-  //   }
-
-  //   form.addEventListener('change', handleChange)
-  //   return () => {
-  //     form.removeEventListener('change', handleChange)
-  //   }
-  // }, [])
-
-  // const handleSave = () => {
-  //   if (form.checkForm()) {
-  //     form.setModified(false)
-  //   } else {
-  //     console.log(`There is error(s) in form`)
-  //   }
-  // }
+  console.log(form.toJSON())
 
   return (
     <div>
-      {form.getArray('list').map((item) => (
-        <div key={item.id}>ok</div>
-      ))}
-      <button
-        onClick={() => {
-          console.log(form.toJSON())
-        }}
-      >
-        OK
-      </button>
+      <div className='container'>
+        <input
+          type='checkbox'
+          checked={form.getValue('required').value}
+          onChange={() => {
+            form
+              .getValue('required')
+              .update(!form.getValue('required').value, true)
+          }}
+        />
+
+        <input
+          {...matchInput(form.getValue('name'))}
+          style={{
+            borderColor: form.getValue('name').error ? 'red' : ''
+          }}
+        />
+        <button
+          onClick={() => {
+            console.log(
+              form.checkForm({
+                log: true
+              })
+            )
+          }}
+        >
+          Test
+        </button>
+      </div>
     </div>
   )
 }
 
 export default BasicExample
 
-// const Input = ({ value, onChange, error, ...props }: any) => (
-//   <input
-//     {...props}
-//     defaultValue={value}
-//     onChange={(e) => {
-//       onChange(e.target.value)
-//     }}
-//     style={{
-//       border: error ? `1px solid red` : `1px solid #dddddd`
-//     }}
-//   />
-// )
-
-export const matchCustomInput = ({ value, update, error }: any) => ({
-  value,
-  onChange: update,
+export const matchInput = ({ value, update, error }: any, refresh = false) => ({
+  value: refresh ? value : undefined,
+  defaultValue: refresh ? undefined : value,
+  onChange: (e: any) => {
+    update(e.target.value, refresh)
+  },
   error
 })

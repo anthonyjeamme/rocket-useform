@@ -195,9 +195,9 @@ export type TFormGetters = {
   getValue: (path: TFormNodePath) => TFormValueGetter
 }
 
-export type TFormValidationFunction = (
-  value?: any,
-  get?: (path: any) => any
+export type TFormValidationFunction<TGetter, TDataType> = (
+  value: TDataType,
+  getters: TFormGetters
 ) => boolean
 
 //
@@ -228,7 +228,7 @@ export type TFormSchemaValueParams<TGetter, TDataType> = {
   required?: boolean | ((getter: TGetter) => boolean)
   readOnly?: boolean
   defaultValue?: TDataType
-  validation?: TFormValidationFunction
+  validation?: TFormValidationFunction<TGetter, TDataType>
   validators?: TFormValidator[]
   autoRefresh?: boolean
   ignoreInJSON?: boolean
