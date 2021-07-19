@@ -1,5 +1,5 @@
 <center>
-  <img height="200" src="https://res.cloudinary.com/anthony-jeamme-stuff/image/upload/v1626271277/libraries/rocket-useform/logo.png">
+  <img height="100" src="https://res.cloudinary.com/anthony-jeamme-stuff/image/upload/v1626271277/libraries/rocket-useform/logo.png">
 
 # Rocket useForm
 
